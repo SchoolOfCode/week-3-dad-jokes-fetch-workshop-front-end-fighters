@@ -56,21 +56,21 @@ const jokes = [
 ];
 
 // Main function to retrieve and display a new joke
-function getAndDisplayNewJoke() {
-  const joke = retrieveJoke();
+async function getAndDisplayNewJoke() {
+  const joke = await getJoke();
   displayJoke(joke);
 }
 
 // Function to retrieve a random joke
-function retrieveJoke() {
-  const randomIndex = Math.floor(Math.random() * jokes.length);
-  return jokes[randomIndex];
-}
+//function retrieveJoke() {
+//  const randomIndex = Math.floor(Math.random() * jokes.length);
+//  return jokes[randomIndex];
+//}
 
 // Function to update the DOM with the provided joke
 function displayJoke(joke) {
   const jokeElement = document.getElementById("joke");
-  jokeElement.textContent = joke.joke;
+  jokeElement.textContent = joke;
 }
 
 // Waits for the DOM to be fully loaded and then displays an initial joke.
@@ -81,3 +81,16 @@ const newJokeButton = document.getElementById("newJokeBtn");
 
 // Sets up a click event listener to fetch and display a new joke upon clicking the newJokeButton.
 newJokeButton.addEventListener("click", getAndDisplayNewJoke);
+
+async function getJoke() {
+	const response = await fetch( 'https://icanhazdadjoke.com/',
+		{
+			method: 'GET',
+			headers: {
+        Accept: "application/JSON",
+			},
+		} 
+	); 
+    const data = await response.json();
+    return data.joke;
+} 
